@@ -1,0 +1,74 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>Image Classifier</title>
+<form method="post" enctype="multipart/form-data" id="uploadForm">
+<input type="file" name="file" id="file"/>
+</form>
+<script src="jquery.min.js"></script>
+<script src="https://unpkg.com/@tensorflow/tfjs"></script>
+<script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
+<script src="index.js"></script>
+<script>
+function filePreview(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#uploadForm + img').remove();
+            $('#uploadForm').after('<embed src="'+e.target.result+'" width="450" height="300">');        }
+        reader.readAsDataURL(input.files[0]);
+    }
+
+}
+
+$("#file").change(function () {
+    filePreview(this);
+});
+
+
+// Predict
+    $('#btn-predict').click(function () {
+        var form_data = new FormData($('#upload-file')[0]);
+        
+        firstasync();
+
+        // Load the model.
+        async function firstasync(){
+        net = await mobilenet.load();
+
+        //const imgEl1 = document.getElementById('img');
+        //const result1 = await net.classify(imgEl1);
+        //console.log(result1);
+    }
+
+    	
+        // Make a prediction through the model on our image.
+  		//const imgEl = document.getElementById('<img src="'+e.target.result+');
+  		const imgEl=document.getElementById('img'); 
+        secondasync();
+        async function secondasync(){
+  		const result = await net.classify(imgEl);
+        console.log(result);
+    }
+
+
+  		$('#result').val(result);
+  		$('#result').show();
+    
+
+});
+</script>
+</head>
+<body>
+	<!--div id="console"></div>
+    <img id="img" crossOrigin src="https://i.imgur.com/JlUvsxa.jpg" width=227 height=227/-->
+    <img id="img" crossOrigin src="+e.target.result+";
+    <div>
+            <button type="button" class="btn btn-primary btn-lg " id="btn-predict">Predict!</button>
+    </div>
+    <h3 id="result">
+        <span> </span>
+    </h3>
+</body>
+</html>
+
